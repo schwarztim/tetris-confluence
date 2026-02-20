@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tetris</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Press Start 2P', monospace;
+      color: #fff;
+    }
+    
+    .game-container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .panel {
+      background: rgba(0, 0, 0, 0.6);
+      border: 3px solid #4a4a6a;
+      border-radius: 8px;
+      padding: 15px;
+    }
+    
+    .panel-title {
+      font-size: 10px;
+      color: #00d4ff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    
+    #hold-canvas, #next-canvas {
+      display: block;
+    }
+    
+    .stats {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+    }
+    
+    .stat-label {
+      color: #888;
+    }
+    
+    .stat-value {
+      color: #fff;
+    }
+    
+    #game-canvas {
+      border: 3px solid #4a4a6a;
+      border-radius: 4px;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      z-index: 100;
+    }
+    
+    .overlay.hidden {
+      display: none;
+    }
+    
+    .overlay-title {
+      font-size: 24px;
+      color: #ff4757;
+      text-shadow: 0 0 10px #ff4757;
+    }
+    
+    .overlay-text {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .pause-text {
+      color: #ffd700;
+      font-size: 28px;
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .controls-info {
+      margin-top: 10px;
+      font-size: 8px;
+      color: #666;
+      text-align: center;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="side-panel">
+      <div class="panel">
+        <div class="panel-title">Hold</div>
+        <canvas id="hold-canvas" width="100" height="80"></canvas>
+      </div>
+      <div class="panel stats">
+        <div class="panel-title">Stats</div>
+        <div class="stat-row">
+          <span class="stat-label">Score</span>
+          <span class="stat-value" id="score">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Lines</span>
+          <span class="stat-value" id="lines">0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Level</span>
+          <span class="stat-value" id="level">1</span>
+        </div>
+      </div>
+    </div>
+    
+    <canvas id="game-canvas" width="300" height="600"></canvas>
+    
+    <div class="side-panel">
+      <div class="panel">
+        <div class="panel-title">Next</div>
+        <canvas id="next-canvas" width="100" height="80"></canvas>
+      </div>
+      <div class="panel">
+        <div class="controls-info">
+          ← → Move<br>
+          ↑ Rotate CW<br>
+          Z Rotate CCW<br>
+          ↓ Soft Drop<br>
+          Space Hard Drop<br>
+          C Hold<br>
+          P Pause<br>
+          R Restart
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="game-over" class="overlay hidden">
+    <div class="overlay-title">GAME OVER</div>
+    <div class="overlay-text">Press R to Restart</div>
+  </div>
+  
+  <div id="pause" class="overlay hidden">
+    <div class="pause-text">PAUSED</div>
+    <div class="overlay-text">Press P to Resume</div>
+  </div>
+  
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
